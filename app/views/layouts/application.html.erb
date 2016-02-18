@@ -10,6 +10,9 @@
 
   <div class="container-fluid">
     <%= render "common/navbar" %>
+    <!-- 把 notice_message 放進 application.html.erb 裡面 -->
+    <%= notice_message%>
+
     <%= yield %>
   </div>
 
