@@ -1,18 +1,20 @@
 class PostsController < ApplicationController
+
+  # 用befor_action 来重构重复的代码
+  before_action :find_group
+
+
   def new
-    @group = Group.find(params[:group_id])
     @post = @group.posts.new
   end
 
   # 编辑 post，找到对应的post，显示出来，修改更新交给update动作
   def edit
-    @group = Group.find(params[:group_id])
     @post = @group.posts.find(params[:id])
   end
 
-  # 更新action，
+  # 更新action
   def update
-    @group = Group.find(params[:group_id])
     @post = @group.posts.find(params[:id])
 
     if @post.update(post_params)
@@ -23,7 +25,6 @@ class PostsController < ApplicationController
   end
 
   def create
-    @group = Group.find(params[:group_id])
     @post = @group.posts.new(post_params)
 
     if @post.save
@@ -33,8 +34,18 @@ class PostsController < ApplicationController
     end
   end
 
+  def destroy
+    @post = @group.posts.find(params[:id])
+
+    @post.destroy
+    redirect_to group_path(@group), alert: "文章已经删除"
+  end
+
   private
 
+  def find_group
+    @group = Group.find(params[:group_id])
+  end
   def post_params
     params.require(:post).permit(:content)
 
