@@ -4,9 +4,27 @@ class PostsController < ApplicationController
     @post = @group.posts.new
   end
 
+  # 编辑 post，找到对应的post，显示出来，修改更新交给update动作
+  def edit
+    @group = Group.find(params[:group_id])
+    @post = @group.posts.find(params[:id])
+  end
+
+  # 更新action，
+  def update
+    @group = Group.find(params[:group_id])
+    @post = @group.posts.find(params[:id])
+
+    if @post.update(post_params)
+      redirect_to group_path(@group), notice: "文章修改成功！"
+    else
+      render :edit
+    end
+  end
+
   def create
     @group = Group.find(params[:group_id])
-    @post = @group.posts.build(post_params)
+    @post = @group.posts.new(post_params)
 
     if @post.save
       redirect_to group_path(@group), notice: "新增文章成功！"
