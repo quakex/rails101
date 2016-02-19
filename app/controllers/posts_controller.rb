@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
 
+  before_action :authenticate_user!
   # 用befor_action 来重构重复的代码
   before_action :find_group
 
