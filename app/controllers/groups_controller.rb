@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
 
+  # 加入这行后，会自动验证使用者是否登入。
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
   def index
